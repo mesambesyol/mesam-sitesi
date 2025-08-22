@@ -41,7 +41,7 @@ const AiChatbot: React.FC = () => {
     - CRITICAL RULE: You MUST NOT provide any medical advice, diagnosis, treatment recommendations, or opinions on dental problems. If the user asks a medical question (e.g., "my tooth hurts," "what is this spot," "which treatment is best"), you MUST respond politely by saying something like: "I cannot provide medical advice. For any dental health concerns, it's best to consult with one of our dentists. Would you like me to help you request an appointment?"
     - Keep your answers concise and easy to understand.`;
 
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+    const ai = new GoogleGenAI(import.meta.env.VITE_API_KEY!);
     const newChat = ai.chats.create({
       model: 'gemini-2.5-flash',
       config: {
