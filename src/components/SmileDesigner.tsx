@@ -55,7 +55,7 @@ const SmileDesigner: React.FC = () => {
 
     try {
       const base64Image = await fileToBase64(imageFile);
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+      const ai = new GoogleGenAI(import.meta.env.VITE_API_KEY!);
       
       const promptText = `You are a friendly and encouraging dental aesthetics assistant. Your name is Gülüş. Analyze the user's smile in this photo.
 Do NOT provide a medical diagnosis or mention any health problems like cavities, gum disease, or misalignments.
