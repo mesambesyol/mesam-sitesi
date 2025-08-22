@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import * as ReactRouterDom from 'react-router-dom';
 import { MenuIcon, XMarkIcon, ChevronDownIcon, TurkeyFlagIcon, UKFlagIcon, GermanyFlagIcon, WhatsAppIcon } from '../constants/icons';
 import { NAV_LINKS } from '../constants/navigation';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Language } from '../types';
+import { Language, NavLinkItem } from '../types';
 
 const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const location = useLocation();
+  const location = ReactRouterDom.useLocation();
   const { language, setLanguage, t, getLocalized } = useLanguage();
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
   const getLinkClasses = (path?: string) => {
     const isActive = location.pathname === path;
     
-    const baseClasses = `px-3 py-2 rounded-md text-sm font-semibold transition-colors`;
+    const baseClasses = `px-3 py-2 rounded-md text-xs font-semibold transition-colors`;
     const themeClasses = isTransparent
       ? 'text-gray-800 hover:text-brand-blue [text-shadow:0_1px_2px_rgba(255,255,255,0.9)]'
       : 'text-gray-600 hover:text-brand-blue';
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
   const selectedLanguage = languages.find(lang => lang.code === language) || languages[0];
 
   const LanguageSelector = ({ isMobile = false }) => {
-    const buttonBaseClasses = 'flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue';
+    const buttonBaseClasses = 'flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-blue';
     const buttonThemeClasses = isTransparent && !isMobile
       ? 'bg-black/5 text-gray-800 hover:bg-black/10 [text-shadow:0_1px_1px_rgba(255,255,255,0.9)]'
       : 'bg-gray-100 text-gray-700 hover:bg-gray-200';
@@ -129,7 +129,7 @@ const Navbar: React.FC = () => {
                   setLanguage(lang.code);
                   setIsLangDropdownOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-4 py-2 text-sm text-left ${language === lang.code ? 'font-bold text-brand-blue bg-brand-blue-light' : 'text-gray-700 hover:bg-gray-100'}`}
+                className={`w-full flex items-center gap-3 px-4 py-2 text-xs text-left ${language === lang.code ? 'font-bold text-brand-blue bg-brand-blue-light' : 'text-gray-700 hover:bg-gray-100'}`}
                 role="menuitem"
               >
                 <lang.Icon className="w-5 h-auto rounded-sm" />
@@ -147,13 +147,13 @@ const Navbar: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`flex items-center justify-between ${headerHeightClasses}`}>
           <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center" aria-label={t('appName') + ' ' + t('navbar.home')}>
+            <ReactRouterDom.Link to="/" className="flex items-center" aria-label={t('appName') + ' ' + t('navbar.home')}>
               <img 
                 className={logoClasses}
                 src="https://i.hizliresim.com/kw923ek.png" 
                 alt={`${t('appName')} Logo`}
               />
-            </Link>
+            </ReactRouterDom.Link>
           </div>
 
           <nav className="hidden md:flex space-x-2 items-center" ref={navRef}>
@@ -179,43 +179,43 @@ const Navbar: React.FC = () => {
                     <div className="w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-10">
                       <div className="py-1">
                         {link.children.map(child => (
-                           <Link
+                           <ReactRouterDom.Link
                             key={child.path}
                             to={child.path!}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-brand-blue transition-colors"
+                            className="block px-4 py-2 text-xs text-gray-700 hover:bg-gray-100 hover:text-brand-blue transition-colors"
                           >
                             {getLocalized(child.name)}
-                          </Link>
+                          </ReactRouterDom.Link>
                         ))}
                       </div>
                     </div>
                   </div>
                 </div>
               ) : (
-                <Link
+                <ReactRouterDom.Link
                   key={link.path}
                   to={link.path!}
                   className={`${getLinkClasses(link.path)} nav-link-desktop`}
                 >
                   {getLocalized(link.name)}
-                </Link>
+                </ReactRouterDom.Link>
               )
             )}
              <a
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-4 inline-flex items-center justify-center gap-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg cta-pulse"
+              className="ml-4 inline-flex items-center justify-center gap-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg cta-pulse"
             >
               <WhatsAppIcon className="w-5 h-5" />
               {t('header.whatsappLine')}
             </a>
-            <Link
+            <ReactRouterDom.Link
               to="/randevu" 
-              className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-teal hover:bg-opacity-90 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-xs font-medium text-white bg-brand-teal hover:bg-opacity-90 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
             >
               {t('buttons.appointment')}
-            </Link>
+            </ReactRouterDom.Link>
             <LanguageSelector />
           </nav>
 
@@ -241,7 +241,7 @@ const Navbar: React.FC = () => {
                  <div key={getLocalized(item.name)} className="py-1">
                    <span className="px-3 py-2 text-xs font-bold text-gray-500 uppercase tracking-wider">{getLocalized(item.name)}</span>
                    {item.children.map(child => (
-                     <Link
+                     <ReactRouterDom.Link
                        key={child.path}
                        to={child.path!}
                        onClick={() => setIsMobileMenuOpen(false)}
@@ -250,11 +250,11 @@ const Navbar: React.FC = () => {
                        }`}
                      >
                        {getLocalized(child.name)}
-                     </Link>
+                     </ReactRouterDom.Link>
                    ))}
                  </div>
                ) : (
-                 <Link
+                 <ReactRouterDom.Link
                     key={item.path}
                     to={item.path!}
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -263,7 +263,7 @@ const Navbar: React.FC = () => {
                     }`}
                 >
                     {getLocalized(item.name)}
-                </Link>
+                </ReactRouterDom.Link>
                )
             )}
              <a
@@ -276,13 +276,13 @@ const Navbar: React.FC = () => {
                <WhatsAppIcon className="w-5 h-5" />
               {t('header.whatsappLine')}
             </a>
-            <Link
+            <ReactRouterDom.Link
               to="/randevu"
               onClick={() => setIsMobileMenuOpen(false)}
               className="mt-1 block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-teal hover:bg-opacity-90 transition-colors"
             >
               {t('buttons.appointment')}
-            </Link>
+            </ReactRouterDom.Link>
             <LanguageSelector isMobile={true}/>
           </nav>
         </div>
